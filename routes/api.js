@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const yahooStockPrices = require('yahoo-stock-prices')
+const models = require('../lib/models')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,6 +21,11 @@ router.get('/search/:symbol', async function(req, res, next) {
     }
 });
 
+router.post('/portfolio', async function(req, res, next) {
+    console.log('req.body is', req.body)
+    let portfolioRow = await models.Portfolio.create({symbol: req.body.stockName, quantity: req.body.buyValue, price: req.body.stockPrice})
+    res.json(portfolioRow)
+});
 
 // CORS requests
 
